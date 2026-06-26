@@ -22,8 +22,8 @@ async function getAllMessages(): Promise<Message[]> {
   snapshot.forEach(document => {
     list.push(document.data() as Message);
   });
-  // Sort messages: newest first
-  return list.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  // Sort messages: newest first based on the generated ID msg-timestamp
+  return list.sort((a, b) => b.id.localeCompare(a.id));
 }
 
 async function insertMessage(msg: Message): Promise<Message> {
