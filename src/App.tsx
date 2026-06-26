@@ -173,21 +173,21 @@ export default function App() {
     setProjects(prev => prev.filter(p => p.id !== id));
   };
 
-  const handleSendMessage = async (newMsg: Message) => {
+  const handleSendMessage = async (newMsg: Message): Promise<void> => {
     try {
       const response = await fetch('/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newMsg)
       });
-      if (response.ok) {
-        await fetchMessages();
-      } else {
-        console.error("Gagal mengirim pesan ke SQL backend");
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Gagal menyimpan ulasan (Server Error: ${response.status})`);
       }
-    } catch (error) {
-      console.error("Error saving message to SQL:", error);
-      setMessages(prev => [newMsg, ...prev]);
+      await fetchMessages();
+    } catch (error: any) {
+      console.error("Error saving message:", error);
+      throw error;
     }
   };
 
@@ -434,10 +434,10 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end pb-8 border-b border-white/5">
             <div className="lg:col-span-6 space-y-2">
               <span className="font-mono text-xs uppercase tracking-widest text-brand-secondary">
-                [ SKILL SET ]
+                [ ARSENAL TEKNIS ]
               </span>
               <h2 className="font-sans font-black text-3xl sm:text-4xl text-white tracking-tight">
-                Skill Yang Di Kembangkan
+                Spektrum Kapabilitas
               </h2>
             </div>
             <div className="lg:col-span-6">
@@ -486,7 +486,7 @@ export default function App() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {["NETWORKING", "AI HEHE", "WEB DEV", "LINUX"].map((t) => (
+                {["NETWORKING", "PYTHON", "WEB DEV", "LINUX"].map((t) => (
                   <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
                     {t}
                   </span>
@@ -564,10 +564,10 @@ export default function App() {
           <div className="lg:col-span-5 space-y-8 flex flex-col justify-between">
             <div className="space-y-4">
               <span className="font-mono text-xs uppercase tracking-widest text-brand-secondary font-bold">
-                [ Saran dan Kritik ]
+                [ HUBUNGI STUDIO ]
               </span>
               <h2 className="font-sans font-black text-3.5xl sm:text-4xl text-white tracking-tight leading-none">
-                Give Your Opinion.
+                Mari Berdiskusi.
               </h2>
               <p className="font-sans text-sm sm:text-base text-brand-on-surface-variant leading-relaxed max-w-sm font-light">
                 Sebelum meninggalkan halaman ini, saya akan senang mendengar pendapat Anda. Kritik yang membangun, apresiasi, maupun saran pengembangan sangat saya hargai.
