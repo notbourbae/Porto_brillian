@@ -1,0 +1,6 @@
+{
+  "name": "Ethereal Portfolio",
+  "description": "A sophisticated, high-end digital portfolio designed for creative professionals with a dark-mode minimalist aesthetic, interactive project manager, and personalizer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

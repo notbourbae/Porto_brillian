@@ -1,0 +1,19 @@
+[build]
+  # Build command to compile our React SPA frontend
+  command = "npm run build"
+  # The output directory of the production build
+  publish = "dist"
+  # Directory where our serverless functions are located
+  functions = "netlify/functions"
+
+# Redirect rules to route API requests to the serverless function, and other paths to the React SPA index.html
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
