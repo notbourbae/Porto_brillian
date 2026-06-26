@@ -6,6 +6,10 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+    rollupOptions: {
+      external: ["./src/server-app"] // or the exact path/import string used
+    }},
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -20,3 +24,4 @@ export default defineConfig(() => {
     },
   };
 });
+
