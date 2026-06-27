@@ -6,6 +6,13 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
+<<<<<<< HEAD
+=======
+    build: {
+    rollupOptions: {
+      external: ["./src/server-app"] // or the exact path/import string used
+    }},
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -20,3 +27,7 @@ export default defineConfig(() => {
     },
   };
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd

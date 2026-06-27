@@ -3,7 +3,11 @@ import { Mail, Check, AlertCircle } from 'lucide-react';
 import { Message } from '../types';
 
 interface ContactFormProps {
+<<<<<<< HEAD
   onSendMessage: (msg: Message) => Promise<void>;
+=======
+  onSendMessage: (msg: Message) => void;
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
 }
 
 export default function ContactForm({ onSendMessage }: ContactFormProps) {
@@ -12,18 +16,26 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+<<<<<<< HEAD
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
+=======
+
+  const handleSubmit = (e: React.FormEvent) => {
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
     e.preventDefault();
     if (!name || !email || !message) {
       setError('Mohon isi semua kolom yang diperlukan.');
       return;
     }
 
+<<<<<<< HEAD
     setIsSubmitting(true);
     setError(null);
 
+=======
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
     const newMessage: Message = {
       id: `msg-${Date.now()}`,
       name,
@@ -38,6 +50,7 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
       })
     };
 
+<<<<<<< HEAD
     try {
       await onSendMessage(newMessage);
       setSubmitted(true);
@@ -57,6 +70,21 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
     } finally {
       setIsSubmitting(false);
     }
+=======
+    onSendMessage(newMessage);
+    setSubmitted(true);
+    setError(null);
+
+    // Reset fields
+    setName('');
+    setEmail('');
+    setMessage('');
+
+    // Clear success message after some seconds
+    setTimeout(() => {
+      setSubmitted(false);
+    }, 5000);
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
   };
 
   return (
@@ -132,6 +160,7 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
             />
           </div>
 
+<<<<<<< HEAD
            <button
             type="submit"
             disabled={isSubmitting}
@@ -141,6 +170,14 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
             id="btn-send-message"
           >
             <span>{isSubmitting ? "MENGIRIM..." : "KIRIM PESAN ▷"}</span>
+=======
+          <button
+            type="submit"
+            className="w-full py-3.5 bg-brand-secondary hover:bg-emerald-400 text-black font-mono text-xs font-bold uppercase tracking-widest rounded-sm transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg cursor-pointer"
+            id="btn-send-message"
+          >
+            <span>KIRIM PESAN ▷</span>
+>>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
           </button>
         </form>
       )}
