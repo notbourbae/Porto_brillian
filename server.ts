@@ -1,8 +1,5 @@
 import path from "path";
-<<<<<<< HEAD
 import express from "express";
-=======
->>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
 import { createServer as createViteServer } from "vite";
 import { app } from "./src/server-app";
 
@@ -21,12 +18,7 @@ async function startServer() {
     app.use(path.join(process.cwd(), 'assets'), (req, res, next) => next());
     app.use(path.join(process.cwd(), 'src/assets'), (req, res, next) => next());
     
-    // Serve static files from dist
-<<<<<<< HEAD
     app.use(express.static(distPath));
-=======
-    app.use(require('express').static(distPath));
->>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
     app.get('*', (req: any, res: any) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

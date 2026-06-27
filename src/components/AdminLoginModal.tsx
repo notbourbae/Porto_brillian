@@ -1,23 +1,6 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Lock, X, Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
-
-=======
-/** @jsxRuntime classic */
-import React, { useState, FormEvent } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Lock, X, Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      [elemName: string]: any;
-    }
-  }
-}
-
->>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
 interface AdminLoginModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -36,11 +19,7 @@ export default function AdminLoginModal({
 
   if (!isOpen) return null;
 
-<<<<<<< HEAD
   const handleSubmit = (e: React.FormEvent) => {
-=======
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
->>>>>>> fb1eaf95b9ae5e3604b1a4f77662f7a0c40140dd
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
