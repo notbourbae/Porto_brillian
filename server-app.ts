@@ -31,6 +31,7 @@ export interface Message {
 // PostgreSQL pool initialization
 let pool: pg.Pool | null = null;
 let usePostgres = false;
+let dbInitializationError: string | null = null;
 
 const normalizedDatabaseUrl = normalizeDatabaseUrl(process.env.DATABASE_URL);
 
@@ -52,8 +53,10 @@ if (normalizedDatabaseUrl) {
 
     usePostgres = true;
     console.log("PostgreSQL Database URL detected. Initializing Supabase PostgreSQL pool.");
-  } catch (error) {
+  } catch (error: any) {
+    dbInitializationError = error?.message || String(error);
     console.error("Failed to initialize PostgreSQL pool:", error);
+    usePostgres = false;
   }
 } else {
   console.log("No DATABASE_URL environment variable found. Falling back to local JSON database storage.");
@@ -73,9 +76,9 @@ async function ensureTableExists() {
     `);
     console.log("Successfully verified messages table in Supabase PostgreSQL.");
   } catch (error: any) {
+    dbInitializationError = error?.message || String(error);
     console.error("Error creating/verifying table in PostgreSQL:", error);
-    console.warn("Temporarily disabling PostgreSQL and falling back to local JSON file storage due to DB connection or credentials error.");
-    usePostgres = false;
+    throw error;
   }
 }
 
@@ -106,11 +109,15 @@ async function getAllMessages(): Promise<Message[]> {
         const result = await pool.query("SELECT id, name, email, message, timestamp FROM messages ORDER BY id DESC");
         return result.rows as Message[];
       }
-    } catch (error) {
-      console.error("Error querying messages from PostgreSQL, falling back to local storage:", error);
-      console.warn("Temporarily disabling PostgreSQL and falling back to local JSON file storage.");
-      usePostgres = false;
+    } catch (error: any) {
+      dbInitializationError = error?.message || String(error);
+      console.error("Error querying messages from PostgreSQL:", error);
+      throw error;
     }
+  }
+
+  if (normalizedDatabaseUrl && !usePostgres) {
+    throw new Error(dbInitializationError || "PostgreSQL is configured but unavailable.");
   }
 
   try {
@@ -140,11 +147,15 @@ async function insertMessage(msg: Message): Promise<Message> {
         );
         return msg;
       }
-    } catch (error) {
-      console.error("Error inserting message into PostgreSQL, falling back to local storage:", error);
-      console.warn("Temporarily disabling PostgreSQL and falling back to local JSON file storage.");
-      usePostgres = false;
+    } catch (error: any) {
+      dbInitializationError = error?.message || String(error);
+      console.error("Error inserting message into PostgreSQL:", error);
+      throw error;
     }
+  }
+
+  if (normalizedDatabaseUrl && !usePostgres) {
+    throw new Error(dbInitializationError || "PostgreSQL is configured but unavailable.");
   }
 
   const messages = await getAllMessages();
@@ -163,11 +174,15 @@ async function deleteMessageById(id: string): Promise<void> {
         await pool.query("DELETE FROM messages WHERE id = $1", [id]);
         return;
       }
-    } catch (error) {
-      console.error("Error deleting message from PostgreSQL, falling back to local storage:", error);
-      console.warn("Temporarily disabling PostgreSQL and falling back to local JSON file storage.");
-      usePostgres = false;
+    } catch (error: any) {
+      dbInitializationError = error?.message || String(error);
+      console.error("Error deleting message from PostgreSQL:", error);
+      throw error;
     }
+  }
+
+  if (normalizedDatabaseUrl && !usePostgres) {
+    throw new Error(dbInitializationError || "PostgreSQL is configured but unavailable.");
   }
 
   const messages = await getAllMessages();
@@ -183,11 +198,15 @@ async function deleteAllMessages(): Promise<void> {
         await pool.query("TRUNCATE TABLE messages");
         return;
       }
-    } catch (error) {
-      console.error("Error truncating messages table in PostgreSQL, falling back to local storage:", error);
-      console.warn("Temporarily disabling PostgreSQL and falling back to local JSON file storage.");
-      usePostgres = false;
+    } catch (error: any) {
+      dbInitializationError = error?.message || String(error);
+      console.error("Error truncating messages table in PostgreSQL:", error);
+      throw error;
     }
+  }
+
+  if (normalizedDatabaseUrl && !usePostgres) {
+    throw new Error(dbInitializationError || "PostgreSQL is configured but unavailable.");
   }
 
   await saveAllMessages([]);
@@ -214,12 +233,16 @@ app.get("/api/debug-db", async (req, res) => {
     res.json({
       success: true,
       mode: usePostgres ? "PostgreSQL (Supabase)" : "Local JSON File",
+      databaseConfigured: Boolean(normalizedDatabaseUrl),
+      databaseUrlPresent: Boolean(normalizedDatabaseUrl),
       message: `${usePostgres ? "Supabase PostgreSQL" : "Local JSON Database"} connection and write/delete test passed successfully!`
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       mode: usePostgres ? "PostgreSQL (Supabase)" : "Local JSON File",
+      databaseConfigured: Boolean(normalizedDatabaseUrl),
+      databaseUrlPresent: Boolean(normalizedDatabaseUrl),
       error: error?.message || String(error),
       stack: error?.stack || null
     });
