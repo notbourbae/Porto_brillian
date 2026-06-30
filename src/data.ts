@@ -82,7 +82,7 @@ export const DEFAULT_EXPERIENCES: Experience[] = [
   {
     id: "edu-4",
     role: "Sekolah Dasar",
-    company: "SDN 1 Ngrendeng",
+    company: "SDN Ngrendeng 03",
     period: "2012 — 2018",
     description: "Tahap awal pendidikan formal dengan fokus pada literasi dasar, numerasi, dan pembentukan karakter."
   }

@@ -71,12 +71,30 @@ export default function App() {
   const [experiences, setExperiences] = useState<Experience[]>(() => {
     const saved = localStorage.getItem('ethereal_experiences');
     if (saved) {
-      const parsed = JSON.parse(saved);
-      const hasOldDash = parsed.some((exp: any) => exp.period && exp.period.includes(' - '));
-      if (hasOldDash) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) {
+          return DEFAULT_EXPERIENCES;
+        }
+
+        const hasOldDash = parsed.some((exp: any) => exp.period && exp.period.includes(' - '));
+        const migratedExperiences = parsed.map((exp: any) => {
+          if (exp.id === 'edu-4' && exp.company === 'SDN 1 Ngrendeng') {
+            return { ...exp, company: 'SDN Ngrendeng 02' };
+          }
+          return exp;
+        });
+
+        if (hasOldDash || migratedExperiences.some((exp: any) => exp.id === 'edu-4' && exp.company === 'SDN Ngrendeng 02')) {
+          const nextExperiences = hasOldDash ? DEFAULT_EXPERIENCES : migratedExperiences;
+          localStorage.setItem('ethereal_experiences', JSON.stringify(nextExperiences));
+          return nextExperiences;
+        }
+
+        return parsed;
+      } catch {
         return DEFAULT_EXPERIENCES;
       }
-      return parsed;
     }
     return DEFAULT_EXPERIENCES;
   });
