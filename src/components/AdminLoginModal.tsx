@@ -24,7 +24,7 @@ export default function AdminLoginModal({
     setError('');
     setIsSubmitting(true);
 
-    const savedPassword = localStorage.getItem('ethereal_admin_password') || 'admin123';
+    const savedPassword = localStorage.getItem('ethereal_admin_password') || 'Ibril1234#';
 
     // Simulate standard authentication delay for premium feel
     setTimeout(() => {
@@ -138,11 +138,6 @@ export default function AdminLoginModal({
             </button>
             
             {/* Standard instruction clue */}
-            <div className="text-center pt-2 border-t border-white/5">
-              <span className="font-mono text-[9px] text-emerald-400/70 tracking-wide uppercase">
-                💡 Demo Mode: Kata sandi adalah <code className="text-white bg-white/5 px-1 py-0.5 rounded">admin123</code>
-              </span>
-            </div>
           </div>
         </form>
       </motion.div>
