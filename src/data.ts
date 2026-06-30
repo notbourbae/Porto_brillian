@@ -1,4 +1,4 @@
-import { Project, Experience, Skill, Profile } from './types';
+import { Project, Experience, Profile } from './types';
 import avatarImg from './assets/images/brillian_profile_1782349458172.jpeg';
 
 export const DEFAULT_PROFILE: Profile = {
@@ -10,7 +10,26 @@ export const DEFAULT_PROFILE: Profile = {
   email: "desipoetibril@gmail.com",
   github: "https://github.com/notbourbae",
   instagram: "https://www.instagram.com/brillian_d.k/",
-  tiktok: "https://www.tiktok.com/@_brilliand"
+  tiktok: "https://www.tiktok.com/@_brilliand",
+  
+  aboutParagraph1: "Perjalanan saya di dunia teknologi dimulai dari ketertarikan mendalam pada infrastruktur jaringan dan sistem komputer. Dengan latar belakang pendidikan Teknik Komputer dan Jaringan hingga kini mendalami Teknik Informatika, saya berdedikasi untuk membangun solusi digital yang tidak hanya fungsional secara teknis tetapi juga memiliki nilai estetika yang kuat.",
+  aboutParagraph2: "Saya percaya bahwa teknologi adalah seni yang ditulis dalam bahasa logika. Setiap piksel membawa makna, setiap baris kode menyimpan cerita. Berangkat dari fondasi Teknik Komputer dan Jaringan hingga menapaki dunia Teknik Informatika, saya terus merangkai solusi digital yang memadukan ketepatan, estetika, dan manfaat. Karena bagi saya, sebuah karya tidak hanya dinilai dari bagaimana ia bekerja, tetapi juga dari bagaimana ia memberi kesan bagi setiap orang yang menggunakannya.",
+  aboutQuote: "Kode adalah puisi yang dipahami mesin, sementara desain adalah bahasa yang menyentuh manusia. Ketika keduanya berpadu, lahirlah karya yang tak sekadar berfungsi, tetapi juga menginspirasi.",
+
+  skillCat1Title: "Creative Design",
+  skillCat1Desc: "Merancang antarmuka pengguna (UI/UX) dengan fokus pada efisiensi teknis dan kemudahan navigasi bagi pengguna.",
+  skillCat1Tags: "FIGMA, UI/UX, DESIGN SYSTEM",
+
+  skillCat2Title: "Development",
+  skillCat2Desc: "Fokus pada pengembangan perangkat lunak, infrastruktur jaringan, dan solusi teknologi modern.",
+  skillCat2Tags: "NETWORKING, VIBE CODING wkwk, WEB DEV, LINUX",
+
+  skillCat3Title: "Networking & Infrastructure",
+  skillCat3Desc: "Perancangan jaringan, administrasi server, dan keamanan sistem komputer.",
+  skillCat3Tags: "CISCO, MIKROTIK, LINUX",
+
+  contactTitle: "Berikan Pendapat Kamu.",
+  contactDesc: "Sebelum meninggalkan halaman ini, saya akan senang mendengar pendapat Anda. Kritik yang membangun, apresiasi, maupun saran pengembangan sangat saya hargai."
 };
 
 export const DEFAULT_PROJECTS: Project[] = [
@@ -88,14 +107,3 @@ export const DEFAULT_EXPERIENCES: Experience[] = [
   }
 ];
 
-export const DEFAULT_SKILLS: Skill[] = [
-  { name: "TypeScript", category: "Code" },
-  { name: "React / Vite", category: "Code" },
-  { name: "Vibe Coding wkwk", category: "Code" },
-  { name: "Figma UI/UX", category: "Visual" },
-  { name: "Sistem Desain", category: "Visual" },
-  { name: "Tipografi Modern", category: "Visual" },
-  { name: "Sistem Cisco", category: "Jaringan" },
-  { name: "Mikrotik Routing", category: "Jaringan" },
-  { name: "Linux Administration", category: "Jaringan" }
-];

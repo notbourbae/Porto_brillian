@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, Mail, Github, Linkedin, MessageSquare, Trash2, ArrowUpRight, Compass, Check, Sliders, Sparkles, ChevronDown, Paintbrush, Code2, Server, Instagram, Video } from 'lucide-react';
-import { Project, Profile, Experience, Skill, Message } from './types';
-import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES, DEFAULT_SKILLS } from './data';
+import { Project, Profile, Experience, Message } from './types';
+import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES } from './data';
 
 import Navbar from './components/Navbar';
 import ProjectCard from './components/ProjectCard';
@@ -151,9 +151,51 @@ export default function App() {
     }
   };
 
-  // Real-time synchronization of messages from SQL backend
+  const fetchProfileFromApi = async () => {
+    try {
+      const response = await fetch('/api/profile');
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+        localStorage.setItem('ethereal_profile', JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error("Error fetching profile from API:", error);
+    }
+  };
+
+  const fetchProjectsFromApi = async () => {
+    try {
+      const response = await fetch('/api/projects');
+      if (response.ok) {
+        const data = await response.json();
+        setProjects(data);
+        localStorage.setItem('ethereal_projects', JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error("Error fetching projects from API:", error);
+    }
+  };
+
+  const fetchExperiencesFromApi = async () => {
+    try {
+      const response = await fetch('/api/experiences');
+      if (response.ok) {
+        const data = await response.json();
+        setExperiences(data);
+        localStorage.setItem('ethereal_experiences', JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error("Error fetching experiences from API:", error);
+    }
+  };
+
+  // Sync all data from server on mount and poll messages
   useEffect(() => {
     fetchMessages();
+    fetchProfileFromApi();
+    fetchProjectsFromApi();
+    fetchExperiencesFromApi();
     const interval = setInterval(fetchMessages, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -186,18 +228,48 @@ export default function App() {
   // -----------------------------------------
   const handleUpdateProfile = (updatedProfile: Profile) => {
     setProfile(updatedProfile);
+    fetch('/api/profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProfile)
+    }).catch(err => console.error("Error saving profile to API:", err));
+  };
+
+  const handleUpdateExperiences = (updatedExps: Experience[]) => {
+    setExperiences(updatedExps);
+    fetch('/api/experiences', { method: 'DELETE' })
+      .then(() => Promise.all(updatedExps.map(exp =>
+        fetch('/api/experiences', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(exp)
+        })
+      )))
+      .catch(err => console.error("Error saving experiences to API:", err));
   };
 
   const handleAddProject = (newProject: Project) => {
     setProjects(prev => [newProject, ...prev]);
+    fetch('/api/projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newProject)
+    }).catch(err => console.error("Error saving project to API:", err));
   };
 
   const handleUpdateProject = (updatedProject: Project) => {
     setProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
+    fetch(`/api/projects/${updatedProject.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProject)
+    }).catch(err => console.error("Error updating project on API:", err));
   };
 
   const handleDeleteProject = (id: string) => {
     setProjects(prev => prev.filter(p => p.id !== id));
+    fetch(`/api/projects/${id}`, { method: 'DELETE' })
+      .catch(err => console.error("Error deleting project from API:", err));
   };
 
   const handleSendMessage = async (newMsg: Message): Promise<void> => {
@@ -261,6 +333,28 @@ export default function App() {
     setExperiences(DEFAULT_EXPERIENCES);
     setMessages([]);
     setIsWorkspaceOpen(false);
+    fetch('/api/profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(DEFAULT_PROFILE)
+    }).catch(() => {});
+    fetch('/api/projects', { method: 'DELETE' }).catch(() => {});
+    Promise.all(DEFAULT_PROJECTS.map(p =>
+      fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(p)
+      })
+    )).catch(() => {});
+    fetch('/api/experiences', { method: 'DELETE' }).catch(() => {});
+    Promise.all(DEFAULT_EXPERIENCES.map(e =>
+      fetch('/api/experiences', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(e)
+      })
+    )).catch(() => {});
+    fetch('/api/messages', { method: 'DELETE' }).catch(() => {});
   };
 
   const handleAdminLogout = () => {
@@ -439,12 +533,14 @@ export default function App() {
 
             <div className="space-y-5 text-brand-on-surface-variant font-sans text-sm sm:text-base leading-relaxed font-light">
               <p>
-                Perjalanan saya di dunia teknologi dimulai dari ketertarikan mendalam pada infrastruktur jaringan dan sistem komputer. Dengan latar belakang pendidikan Teknik Komputer dan Jaringan hingga kini mendalami Teknik Informatika, saya berdedikasi untuk membangun solusi digital yang tidak hanya fungsional secara teknis tetapi juga memiliki nilai estetika yang kuat.
+                {profile.aboutParagraph1 || "Perjalanan saya di dunia teknologi dimulai dari ketertarikan mendalam pada infrastruktur jaringan dan sistem komputer."}
               </p>
               <p>
-                Saya percaya bahwa teknologi adalah seni yang ditulis dalam bahasa logika. Setiap piksel membawa makna, setiap baris kode menyimpan cerita. Berangkat dari fondasi Teknik Komputer dan Jaringan hingga menapaki dunia Teknik Informatika, saya terus merangkai solusi digital yang memadukan ketepatan, estetika, dan manfaat. Karena bagi saya, sebuah karya tidak hanya dinilai dari bagaimana ia bekerja, tetapi juga dari bagaimana ia memberi kesan bagi setiap orang yang menggunakannya.              </p>
+                {profile.aboutParagraph2 || "Saya percaya bahwa teknologi adalah seni yang ditulis dalam bahasa logika. Setiap piksel membawa makna, setiap baris kode menyimpan cerita."}
+              </p>
               <p className="italic text-white font-normal text-sm border-l-2 border-brand-secondary pl-4">
-                "Kode adalah puisi yang dipahami mesin, sementara desain adalah bahasa yang menyentuh manusia. Ketika keduanya berpadu, lahirlah karya yang tak sekadar berfungsi, tetapi juga menginspirasi."              </p>
+                "{profile.aboutQuote || "Kode adalah puisi yang dipahami mesin, sementara desain adalah bahasa yang menyentuh manusia."}"
+              </p>
             </div>
 
             {/* Bottom Accent line */}
@@ -482,17 +578,23 @@ export default function App() {
                 <Paintbrush className="w-6 h-6" />
               </div>
               <div className="space-y-3">
-                <h3 className="font-sans font-bold text-lg text-white">Creative Design</h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
-                  Merancang antarmuka pengguna (UI/UX) dengan fokus pada efisiensi teknis dan kemudahan navigasi bagi pengguna.
+                <h3 className="font-sans font-bold text-lg text-white">
+                  {profile.skillCat1Title || "Creative Design"}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                  {profile.skillCat1Desc || "Merancang antarmuka pengguna (UI/UX) dengan fokus pada efisiensi teknis dan kemudahan navigasi bagi pengguna."}
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {["FIGMA", "UI/UX", "DESIGN SYSTEM"].map((t) => (
-                  <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
-                    {t}
-                  </span>
-                ))}
+                {(profile.skillCat1Tags || "FIGMA, UI/UX, DESIGN SYSTEM")
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((t) => (
+                    <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
+                      {t}
+                    </span>
+                  ))}
               </div>
             </motion.div>
 
@@ -505,17 +607,23 @@ export default function App() {
                 <Code2 className="w-6 h-6" />
               </div>
               <div className="space-y-3">
-                <h3 className="font-sans font-bold text-lg text-white">Development</h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
-                  Fokus pada pengembangan perangkat lunak, infrastruktur jaringan, dan solusi teknologi modern.
+                <h3 className="font-sans font-bold text-lg text-white">
+                  {profile.skillCat2Title || "Development"}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                  {profile.skillCat2Desc || "Fokus pada pengembangan perangkat lunak, infrastruktur jaringan, dan solusi teknologi modern."}
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {["NETWORKING", "VIBE CODING wkwk", "WEB DEV", "LINUX"].map((t) => (
-                  <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
-                    {t}
-                  </span>
-                ))}
+                {(profile.skillCat2Tags || "NETWORKING, VIBE CODING wkwk, WEB DEV, LINUX")
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((t) => (
+                    <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
+                      {t}
+                    </span>
+                  ))}
               </div>
             </motion.div>
 
@@ -528,17 +636,23 @@ export default function App() {
                 <Server className="w-6 h-6" />
               </div>
               <div className="space-y-3">
-                <h3 className="font-sans font-bold text-lg text-white">Networking & Infrastructure</h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
-                  Perancangan jaringan, administrasi server, dan keamanan sistem komputer.
+                <h3 className="font-sans font-bold text-lg text-white">
+                  {profile.skillCat3Title || "Networking & Infrastructure"}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                  {profile.skillCat3Desc || "Perancangan jaringan, administrasi server, dan keamanan sistem komputer."}
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {["CISCO", "MIKROTIK", "LINUX"].map((t) => (
-                  <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
-                    {t}
-                  </span>
-                ))}
+                {(profile.skillCat3Tags || "CISCO, MIKROTIK, LINUX")
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((t) => (
+                    <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
+                      {t}
+                    </span>
+                  ))}
               </div>
             </motion.div>
           </div>
@@ -576,6 +690,8 @@ export default function App() {
                 onUpdateProfile={handleUpdateProfile}
                 onResetDefaults={handleResetDefaults}
                 onLogout={handleAdminLogout}
+                experiences={experiences}
+                onUpdateExperiences={handleUpdateExperiences}
               />
             </motion.section>
           )}
@@ -592,10 +708,10 @@ export default function App() {
                 [ Saran & Kritik ]
               </span>
               <h2 className="font-sans font-black text-3.5xl sm:text-4xl text-white tracking-tight leading-none">
-                Berikan Pendapat Kamu.
+                {profile.contactTitle || "Berikan Pendapat Kamu."}
               </h2>
               <p className="font-sans text-sm sm:text-base text-brand-on-surface-variant leading-relaxed max-w-sm font-light">
-                Sebelum meninggalkan halaman ini, saya akan senang mendengar pendapat Anda. Kritik yang membangun, apresiasi, maupun saran pengembangan sangat saya hargai.
+                {profile.contactDesc || "Sebelum meninggalkan halaman ini, saya akan senang mendengar pendapat Anda. Kritik yang membangun, apresiasi, maupun saran pengembangan sangat saya hargai."}
               </p>
             </div>
 

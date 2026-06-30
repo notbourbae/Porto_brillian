@@ -21,11 +21,6 @@ export interface Experience {
   major?: string;
 }
 
-export interface Skill {
-  name: string;
-  category: string;
-}
-
 export interface Message {
   id: string;
   name: string;
@@ -45,4 +40,24 @@ export interface Profile {
   linkedin?: string;
   instagram?: string;
   tiktok?: string;
+  
+  // Custom about section
+  aboutParagraph1?: string;
+  aboutParagraph2?: string;
+  aboutQuote?: string;
+
+  // Custom skills section
+  skillCat1Title?: string;
+  skillCat1Desc?: string;
+  skillCat1Tags?: string;
+  skillCat2Title?: string;
+  skillCat2Desc?: string;
+  skillCat2Tags?: string;
+  skillCat3Title?: string;
+  skillCat3Desc?: string;
+  skillCat3Tags?: string;
+
+  // Custom contact text
+  contactTitle?: string;
+  contactDesc?: string;
 }
