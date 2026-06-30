@@ -9,6 +9,17 @@ dotenv.config();
 const { Pool } = pg;
 const DB_FILE = path.join(process.cwd(), "messages-db.json");
 
+function normalizeDatabaseUrl(rawUrl: string | undefined): string | undefined {
+  if (!rawUrl) return undefined;
+
+  const trimmed = rawUrl.trim();
+  const withoutQuotes = trimmed.replace(/^['"]|['"]$/g, "");
+
+  if (!withoutQuotes) return undefined;
+
+  return withoutQuotes;
+}
+
 export interface Message {
   id: string;
   name: string;
@@ -21,10 +32,12 @@ export interface Message {
 let pool: pg.Pool | null = null;
 let usePostgres = false;
 
-if (process.env.DATABASE_URL) {
+const normalizedDatabaseUrl = normalizeDatabaseUrl(process.env.DATABASE_URL);
+
+if (normalizedDatabaseUrl) {
   try {
     // Remove sslmode param from URL to avoid conflict with explicit ssl config
-    const cleanDbUrl = process.env.DATABASE_URL.replace(/[?&]sslmode=[^&]*/g, '').replace(/\?$/, '');
+    const cleanDbUrl = normalizedDatabaseUrl.replace(/[?&]sslmode=[^&]*/g, '').replace(/\?$/, '');
     pool = new Pool({
       connectionString: cleanDbUrl,
       ssl: {
