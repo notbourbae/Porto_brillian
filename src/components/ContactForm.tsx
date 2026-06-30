@@ -76,7 +76,7 @@ export default function ContactForm({ onSendMessage }: ContactFormProps) {
         <form onSubmit={handleSubmit} className="space-y-6">
           <h3 className="font-sans font-black text-xl text-white tracking-tight flex items-center gap-2.5">
             <Mail className="w-5 h-5 text-brand-secondary" />
-            Hubungi atau Beri Masukan
+            Berikan Masukan Kamu
           </h3>
 
           {error && (

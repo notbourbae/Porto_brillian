@@ -82,7 +82,7 @@ export const DEFAULT_EXPERIENCES: Experience[] = [
   {
     id: "edu-4",
     role: "Sekolah Dasar",
-    company: "SDN Ngrendeng 03",
+    company: "SDN Ngrendeng 02",
     period: "2012 — 2018",
     description: "Tahap awal pendidikan formal dengan fokus pada literasi dasar, numerasi, dan pembentukan karakter."
   }
@@ -91,7 +91,7 @@ export const DEFAULT_EXPERIENCES: Experience[] = [
 export const DEFAULT_SKILLS: Skill[] = [
   { name: "TypeScript", category: "Code" },
   { name: "React / Vite", category: "Code" },
-  { name: "Python", category: "Code" },
+  { name: "Vibe Coding wkwk", category: "Code" },
   { name: "Figma UI/UX", category: "Visual" },
   { name: "Sistem Desain", category: "Visual" },
   { name: "Tipografi Modern", category: "Visual" },

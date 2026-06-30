@@ -433,11 +433,9 @@ export default function App() {
                 Perjalanan saya di dunia teknologi dimulai dari ketertarikan mendalam pada infrastruktur jaringan dan sistem komputer. Dengan latar belakang pendidikan Teknik Komputer dan Jaringan hingga kini mendalami Teknik Informatika, saya berdedikasi untuk membangun solusi digital yang tidak hanya fungsional secara teknis tetapi juga memiliki nilai estetika yang kuat.
               </p>
               <p>
-                Bagi saya, setiap pixel memiliki tujuan dan setiap baris kode adalah fondasi dari sebuah solusi digital yang efisien. Dengan latar belakang Teknik Komputer dan Jaringan hingga kini mendalami Teknik Informatika, saya berdedikasi untuk membangun infrastruktur dan aplikasi yang tidak hanya fungsional secara teknis tetapi juga memiliki nilai estetika yang kuat.
-              </p>
+                Saya percaya bahwa teknologi adalah seni yang ditulis dalam bahasa logika. Setiap piksel membawa makna, setiap baris kode menyimpan cerita. Berangkat dari fondasi Teknik Komputer dan Jaringan hingga menapaki dunia Teknik Informatika, saya terus merangkai solusi digital yang memadukan ketepatan, estetika, dan manfaat. Karena bagi saya, sebuah karya tidak hanya dinilai dari bagaimana ia bekerja, tetapi juga dari bagaimana ia memberi kesan bagi setiap orang yang menggunakannya.              </p>
               <p className="italic text-white font-normal text-sm border-l-2 border-brand-secondary pl-4">
-                "Di balik setiap baris kode dan piksel yang presisi, terdapat dedikasi untuk melampaui batas fungsionalitas menuju sebuah karya yang abadi. Kesederhanaan adalah bentuk kecanggihan yang paling murni."
-              </p>
+                "Kode adalah puisi yang dipahami mesin, sementara desain adalah bahasa yang menyentuh manusia. Ketika keduanya berpadu, lahirlah karya yang tak sekadar berfungsi, tetapi juga menginspirasi."              </p>
             </div>
 
             {/* Bottom Accent line */}
@@ -452,15 +450,15 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end pb-8 border-b border-white/5">
             <div className="lg:col-span-6 space-y-2">
               <span className="font-mono text-xs uppercase tracking-widest text-brand-secondary">
-                [ ARSENAL TEKNIS ]
+                [ Skills ]
               </span>
               <h2 className="font-sans font-black text-3xl sm:text-4xl text-white tracking-tight">
-                Spektrum Kapabilitas
+                Sedang di pelajari 
               </h2>
             </div>
             <div className="lg:col-span-6">
               <p className="font-sans text-sm text-brand-on-surface-variant leading-relaxed lg:text-right">
-                Kombinasi antara kematangan visual dan ketajaman teknis untuk solusi modern.
+                Saya selalu berusaha untuk memperluas pengetahuan saya.
               </p>
             </div>
           </div>
@@ -504,7 +502,7 @@ export default function App() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-2">
-                {["NETWORKING", "PYTHON", "WEB DEV", "LINUX"].map((t) => (
+                {["NETWORKING", "VIBE CODING wkwk", "WEB DEV", "LINUX"].map((t) => (
                   <span key={t} className="font-mono text-[9px] tracking-widest bg-white/5 text-brand-on-surface-variant px-2.5 py-1 rounded-sm">
                     {t}
                   </span>
@@ -582,10 +580,10 @@ export default function App() {
           <div className="lg:col-span-5 space-y-8 flex flex-col justify-between">
             <div className="space-y-4">
               <span className="font-mono text-xs uppercase tracking-widest text-brand-secondary font-bold">
-                [ HUBUNGI STUDIO ]
+                [ Saran & Kritik ]
               </span>
               <h2 className="font-sans font-black text-3.5xl sm:text-4xl text-white tracking-tight leading-none">
-                Mari Berdiskusi.
+                Berikan Pendapat Kamu.
               </h2>
               <p className="font-sans text-sm sm:text-base text-brand-on-surface-variant leading-relaxed max-w-sm font-light">
                 Sebelum meninggalkan halaman ini, saya akan senang mendengar pendapat Anda. Kritik yang membangun, apresiasi, maupun saran pengembangan sangat saya hargai.
