@@ -1,5 +1,5 @@
 import { Project, Experience, Skill, Profile } from './types';
-import avatarImg from './assets/images/brillian_profile_1782349458172.jpg';
+import avatarImg from './assets/images/brillian_profile_1782349458172.jpeg';
 
 export const DEFAULT_PROFILE: Profile = {
   name: "BRILLIAN DANIAR KAUTAMA",

@@ -30,7 +30,13 @@ export default function App() {
         updated.name = "BRILLIAN DANIAR KAUTAMA";
         changed = true;
       }
-      if (!parsed.avatarUrl || parsed.avatarUrl.includes("unsplash.com") || parsed.avatarUrl.includes("photo-1506794778202")) {
+      const avatarLooksLegacy = !parsed.avatarUrl ||
+        parsed.avatarUrl.includes("unsplash.com") ||
+        parsed.avatarUrl.includes("photo-1506794778202") ||
+        parsed.avatarUrl.includes("brillian_profile_1782349458172.jpg") ||
+        (parsed.avatarUrl.startsWith("http") === false && parsed.avatarUrl.startsWith("/") === false && parsed.avatarUrl.startsWith("data:") === false);
+
+      if (avatarLooksLegacy) {
         updated.avatarUrl = DEFAULT_PROFILE.avatarUrl;
         changed = true;
       }
