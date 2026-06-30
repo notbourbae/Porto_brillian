@@ -1,6 +1,6 @@
 [build]
   # Build command to compile our React SPA frontend
-  command = "npx run build"
+  command = "npm run build"
   # The output directory of the production build
   publish = "dist"
   # Directory where our serverless functions are located
