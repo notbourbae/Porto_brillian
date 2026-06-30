@@ -34,7 +34,10 @@ export default function App() {
         parsed.avatarUrl.includes("unsplash.com") ||
         parsed.avatarUrl.includes("photo-1506794778202") ||
         parsed.avatarUrl.includes("brillian_profile_1782349458172.jpg") ||
-        (parsed.avatarUrl.startsWith("http") === false && parsed.avatarUrl.startsWith("/") === false && parsed.avatarUrl.startsWith("data:") === false);
+        parsed.avatarUrl.includes("brillian_profile_1782349458172.jpeg") ||
+        parsed.avatarUrl.includes("/assets/") ||
+        parsed.avatarUrl.includes("assets/images") ||
+        (parsed.avatarUrl.startsWith("http") === false && parsed.avatarUrl.startsWith("data:") === false);
 
       if (avatarLooksLegacy) {
         updated.avatarUrl = DEFAULT_PROFILE.avatarUrl;
