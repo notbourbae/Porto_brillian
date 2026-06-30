@@ -23,8 +23,10 @@ let usePostgres = false;
 
 if (process.env.DATABASE_URL) {
   try {
+    // Remove sslmode param from URL to avoid conflict with explicit ssl config
+    const cleanDbUrl = process.env.DATABASE_URL.replace(/[?&]sslmode=[^&]*/g, '').replace(/\?$/, '');
     pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: cleanDbUrl,
       ssl: {
         rejectUnauthorized: false
       }
