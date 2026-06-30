@@ -354,7 +354,7 @@ export default function App() {
                 className="font-sans font-black tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-[76px] text-white leading-[1.1] max-w-4xl"
               >
                 Menciptakan <span className="text-brand-secondary italic font-serif">Harmoni</span> Antara <br className="hidden md:inline" />
-                Teknologi & Estetika.
+                Teknologi & Desain.
               </motion.h1>
             </div>
 
