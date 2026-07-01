@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Globe, Mail, Github, Linkedin, MessageSquare, Trash2, ArrowUpRight, Compass, Check, Sliders, Sparkles, ChevronDown, Paintbrush, Code2, Server, Instagram, Video } from 'lucide-react';
+import { Globe, Mail, Github, Linkedin, MessageSquare, Trash2, ArrowUpRight, Compass, Check, Sliders, Sparkles, ChevronDown, Paintbrush, Code2, Server, Instagram, Video, Star, ShieldCheck, Quote, ThumbsUp } from 'lucide-react';
 import { Project, Profile, Experience, Message } from './types';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES } from './data';
 
@@ -10,6 +10,75 @@ import ProjectManager from './components/ProjectManager';
 import ExperienceTimeline from './components/ExperienceTimeline';
 import ContactForm from './components/ContactForm';
 import AdminLoginModal from './components/AdminLoginModal';
+import ActiveBackground from './components/ActiveBackground';
+
+// Helper to parse and render styled text with premium gradients and styles dynamically
+const renderHeroHeading = (text: string) => {
+  if (!text) return null;
+
+  // Split by newlines first
+  const lines = text.split('\n');
+  const keywordRegex = /(harmoni|teknologi|tekonlogi|berdampak|desain|seni|digital|creative|modern|impact)/i;
+
+  return lines.map((line, lineIdx) => {
+    // Look for format markers like {text} or **text**
+    const markerRegex = /(\{[^{}]+\}|\*\*[^*]+\*\*)/g;
+    const parts = line.split(markerRegex);
+    
+    const hasFormatting = parts.some(p => (p.startsWith('{') && p.endsWith('}')) || (p.startsWith('**') && p.endsWith('**')));
+    
+    let renderedLine;
+    if (!hasFormatting) {
+      // Default: Dynamically highlight premium keywords automatically for maximum aesthetic appeal!
+      const defaultParts = line.split(keywordRegex);
+      renderedLine = defaultParts.map((part, index) => {
+        if (keywordRegex.test(part)) {
+          return (
+            <span
+              key={index}
+              className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary via-[#00f2fe] to-[#38bdf8] font-sans font-black inline-block hover:scale-[1.03] transition-all duration-300 drop-shadow-[0_0_25px_rgba(78,222,163,0.25)] drop-shadow-[0_0_10px_rgba(0,242,254,0.15)] select-none cursor-default"
+            >
+              {part}
+            </span>
+          );
+        }
+        return part;
+      });
+    } else {
+      renderedLine = parts.map((part, index) => {
+        if (part.startsWith('{') && part.endsWith('}')) {
+          const clean = part.slice(1, -1);
+          return (
+            <span
+              key={index}
+              className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary via-[#00f2fe] to-[#38bdf8] font-sans font-black inline-block hover:scale-[1.03] transition-all duration-300 drop-shadow-[0_0_25px_rgba(78,222,163,0.25)] drop-shadow-[0_0_10px_rgba(0,242,254,0.15)] select-none cursor-default"
+            >
+              {clean}
+            </span>
+          );
+        } else if (part.startsWith('**') && part.endsWith('**')) {
+          const clean = part.slice(2, -2);
+          return (
+            <span
+              key={index}
+              className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary via-[#00f2fe] to-[#38bdf8] font-sans font-black inline-block hover:scale-[1.03] transition-all duration-300 drop-shadow-[0_0_25px_rgba(78,222,163,0.25)] drop-shadow-[0_0_10px_rgba(0,242,254,0.15)] select-none cursor-default"
+            >
+              {clean}
+            </span>
+          );
+        }
+        return part;
+      });
+    }
+
+    return (
+      <React.Fragment key={lineIdx}>
+        {renderedLine}
+        {lineIdx < lines.length - 1 && <br />}
+      </React.Fragment>
+    );
+  });
+};
 
 export default function App() {
   // -----------------------------------------
@@ -30,14 +99,7 @@ export default function App() {
         updated.name = "BRILLIAN DANIAR KAUTAMA";
         changed = true;
       }
-      const avatarLooksLegacy = !parsed.avatarUrl ||
-        parsed.avatarUrl.includes("unsplash.com") ||
-        parsed.avatarUrl.includes("photo-1506794778202") ||
-        parsed.avatarUrl.includes("brillian_profile_1782349458172.jpg") ||
-        parsed.avatarUrl.includes("brillian_profile_1782349458172.jpeg") ||
-        parsed.avatarUrl.includes("/assets/") ||
-        parsed.avatarUrl.includes("assets/images") ||
-        (parsed.avatarUrl.startsWith("http") === false && parsed.avatarUrl.startsWith("data:") === false);
+      const avatarLooksLegacy = !parsed.avatarUrl || typeof parsed.avatarUrl !== 'string' || !parsed.avatarUrl.trim();
 
       if (avatarLooksLegacy) {
         updated.avatarUrl = DEFAULT_PROFILE.avatarUrl;
@@ -71,6 +133,10 @@ export default function App() {
     }
     return DEFAULT_PROFILE;
   });
+
+  const handleAvatarError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    event.currentTarget.src = DEFAULT_PROFILE.avatarUrl;
+  };
 
   const [projects, setProjects] = useState<Project[]>(() => {
     const saved = localStorage.getItem('ethereal_projects');
@@ -117,7 +183,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<'All' | 'Design' | 'Code' | 'Architecture'>('All');
   const [activeSection, setActiveSection] = useState('hero');
   const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(false);
-  const [showInboundMessages, setShowInboundMessages] = useState(false);
+  const [showInboundMessages, setShowInboundMessages] = useState(true);
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
     return sessionStorage.getItem('ethereal_is_admin') === 'true';
   });
@@ -399,6 +465,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-surface text-brand-on-surface relative overflow-x-hidden selection:bg-brand-secondary selection:text-brand-on-secondary">
+      {/* Active Interactive Background Canvas */}
+      <ActiveBackground />
+
       {/* Background Ambience - Quiet Luxury Subtle Vignette */}
       <div className="absolute top-0 left-0 w-full h-[600px] bg-radial-gradient from-brand-secondary/5 via-transparent to-transparent pointer-events-none z-0" />
       
@@ -436,19 +505,19 @@ export default function App() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="font-mono text-xs tracking-[0.3em] uppercase text-brand-secondary font-bold"
+                className="font-mono text-xs tracking-[0.2em] sm:tracking-[0.28em] uppercase text-brand-secondary font-bold px-5 py-2 rounded-full border border-brand-secondary/20 bg-brand-secondary/5 shadow-[0_0_20px_rgba(78,222,163,0.06)] backdrop-blur-md select-none inline-flex items-center gap-2 hover:bg-brand-secondary/10 transition-colors duration-300"
               >
-                HI! I AM {profile.name.toUpperCase()}
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-secondary animate-pulse" />
+                {profile.heroTag || `HI! I AM ${profile.name.toUpperCase()}`}
               </motion.div>
               
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-sans font-black tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-[76px] text-white leading-[1.1] max-w-4xl"
+                className="font-sans font-black tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-[76px] text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/80 leading-[1.15] sm:leading-[1.1] max-w-4xl select-none"
               >
-                Menciptakan <span className="text-brand-secondary italic font-serif">Harmoni</span> Antara <br className="hidden md:inline" />
-                Teknologi & Desain.
+                {renderHeroHeading(profile.heroHeading || "Menciptakan {Harmoni} Antara \nTeknologi & Desain.")}
               </motion.h1>
             </div>
 
@@ -506,6 +575,9 @@ export default function App() {
               <img
                 src={profile.avatarUrl}
                 alt={profile.name}
+                onError={(event) => {
+                  event.currentTarget.src = DEFAULT_PROFILE.avatarUrl;
+                }}
                 className="object-cover w-full h-full filter grayscale contrast-115 group-hover:grayscale-0 transition-all duration-700 relative z-0"
                 referrerPolicy="no-referrer"
               />
@@ -805,78 +877,91 @@ export default function App() {
         {/* =========================================
             8. SUBMITTED INBOUND MESSAGES LOG
            ========================================= */}
+        {/* =========================================
+            8. SUBMITTED INBOUND MESSAGES LOG
+           ========================================= */}
         <AnimatePresence>
           {showInboundMessages && (
             <motion.section
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 15 }}
               transition={{ duration: 0.4 }}
-              className="bg-[#161616] border border-white/5 rounded-md p-6 md:p-8 space-y-6 overflow-hidden"
+              className="bg-[#161616] border border-white/5 rounded-md p-6 md:p-8 space-y-8 overflow-hidden"
               id="messages-log-panel"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-white/5">
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
                 <div>
-                  <h3 className="font-sans font-bold text-lg text-white">
-                    Ulasan & Pesan Pengunjung
+                  <h3 className="font-sans font-black text-xl text-white tracking-tight flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-brand-secondary" />
+                    Ulasan & Suara Pengunjung
                   </h3>
                   <p className="font-mono text-[10px] text-brand-on-surface-variant uppercase mt-1 tracking-wider">
-                    DAFTAR ULASAN DAN PESAN REAL-TIME DARI PENGUNJUNG PORTFOLIO
+                    Umpan balik langsung dari rekan developer, klien, dan pengunjung portfolio
                   </p>
                 </div>
                 
                 {isAdmin && messages.length > 0 && (
                   <button
                     onClick={handleClearAllMessages}
-                    className="font-mono text-[10px] text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                    className="font-mono text-[10px] text-red-400 hover:text-red-300 transition-colors cursor-pointer bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-sm border border-red-500/20"
                   >
-                    Hapus Semua
+                    Hapus Semua ({messages.length})
                   </button>
                 )}
               </div>
+              {/* Reviews Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                {/* 1. Real-time User Reviews (From database/form) */}
+                {messages.map((msg) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    key={msg.id}
+                    className="bg-[#121617] border border-white/5 hover:border-brand-secondary/30 rounded-md p-5 relative group transition-all duration-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.5),0_0_15px_rgba(78,222,163,0.05)] hover:-translate-y-0.5 flex flex-col justify-between"
+                  >
+                    {isAdmin && (
+                      <button
+                        onClick={() => handleDeleteMessage(msg.id)}
+                        className="absolute top-4 right-4 text-brand-on-surface-variant hover:text-red-400 p-1.5 rounded-sm bg-white/5 border border-white/10 transition-colors duration-200 cursor-pointer z-10"
+                        title="Hapus Pesan"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
 
-              {messages.length === 0 ? (
-                <div className="text-center py-8 text-brand-on-surface-variant text-sm">
-                  Belum ada ulasan atau pesan masuk. Coba kirim pesan melalui formulir di atas untuk menguji tanggapan real-time!
-                </div>
-              ) : (
-                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className="bg-[#121212] border border-white/10 p-5 rounded-sm relative group"
-                    >
-                      {isAdmin && (
-                        <button
-                          onClick={() => handleDeleteMessage(msg.id)}
-                          className="absolute top-4 right-4 text-brand-on-surface-variant hover:text-red-400 p-1 rounded-sm transition-colors duration-200 cursor-pointer"
-                          title="Hapus Pesan"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-3 border-b border-white/5">
-                        <div>
-                          <span className="font-sans font-semibold text-white block">
-                            {msg.name}
-                          </span>
-                          <span className="font-mono text-[11px] text-brand-secondary">
-                            {msg.email}
-                          </span>
-                        </div>
-                        <span className="font-mono text-[10px] text-brand-on-surface-variant shrink-0">
-                          {msg.timestamp}
-                        </span>
-                      </div>
-
-                      <p className="font-sans text-sm text-brand-on-surface/90 whitespace-pre-line leading-relaxed">
-                        {msg.message}
+                    <div>
+                      {/* Review text */}
+                      <p className="font-sans text-xs md:text-sm text-brand-on-surface-variant/90 whitespace-pre-line leading-relaxed italic mb-5">
+                        "{msg.message}"
                       </p>
                     </div>
-                  ))}
-                </div>
-              )}
+
+                    {/* Reviewer Details */}
+                    <div className="flex items-center gap-3 pt-3 border-t border-white/5">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-secondary/20 to-teal-500/10 border border-brand-secondary/30 flex items-center justify-center text-brand-secondary font-black text-xs shrink-0 shadow-inner">
+                        {msg.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <span className="font-sans font-semibold text-white text-xs block truncate">
+                          {msg.name}
+                        </span>
+                        <span className="font-mono text-[9px] text-brand-secondary block truncate">
+                          {msg.email}
+                        </span>
+                      </div>
+                      <span className="font-mono text-[8px] text-brand-on-surface-variant/50 ml-auto shrink-0 self-end">
+                        {msg.timestamp.split(' - ')[0]}
+                      </span>
+                    </div>
+
+                    {/* Decorative Background Quote */}
+                    <Quote className="absolute right-6 bottom-4 w-12 h-12 text-white/[0.015] pointer-events-none group-hover:text-brand-secondary/[0.035] transition-all duration-300" />
+                  </motion.div>
+                ))}
+
+              </div>
             </motion.section>
           )}
         </AnimatePresence>

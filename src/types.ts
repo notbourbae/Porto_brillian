@@ -40,6 +40,8 @@ export interface Profile {
   linkedin?: string;
   instagram?: string;
   tiktok?: string;
+  heroTag?: string;
+  heroHeading?: string;
   
   // Custom about section
   aboutParagraph1?: string;

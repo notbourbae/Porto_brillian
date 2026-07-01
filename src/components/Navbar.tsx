@@ -55,8 +55,8 @@ export default function Navbar({
   return (
     <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-[#101415]/95 backdrop-blur-md border-b border-white/5 py-4' 
-        : 'bg-[#101415]/90 backdrop-blur-md border-b border-white/5 py-5'
+        ? 'bg-[#101415]/70 backdrop-blur-lg border-b border-white/5 py-4 shadow-lg shadow-black/15' 
+        : 'bg-[#101415]/40 backdrop-blur-md border-b border-white/5 py-5'
     }`}>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
         {/* Brand Name */}

@@ -79,6 +79,8 @@ export interface Profile {
   skillCat3Tags?: string;
   contactTitle?: string;
   contactDesc?: string;
+  heroTag?: string;
+  heroHeading?: string;
 }
 
 // PostgreSQL pool initialization
@@ -153,8 +155,16 @@ async function ensureTablesExist() {
         skill_cat3_desc TEXT,
         skill_cat3_tags TEXT,
         contact_title TEXT,
-        contact_desc TEXT
+        contact_desc TEXT,
+        hero_tag TEXT,
+        hero_heading TEXT
       );
+    `);
+    await pool.query(`
+      ALTER TABLE profiles ADD COLUMN IF NOT EXISTS hero_tag TEXT;
+    `);
+    await pool.query(`
+      ALTER TABLE profiles ADD COLUMN IF NOT EXISTS hero_heading TEXT;
     `);
     await pool.query(`
       CREATE TABLE IF NOT EXISTS projects (
@@ -375,6 +385,8 @@ function profileToDb(p: Profile): any {
     skill_cat3_tags: p.skillCat3Tags || null,
     contact_title: p.contactTitle || null,
     contact_desc: p.contactDesc || null,
+    hero_tag: p.heroTag || null,
+    hero_heading: p.heroHeading || null,
   };
 }
 
@@ -404,6 +416,8 @@ function profileFromDb(row: any): Profile {
     skillCat3Tags: row.skill_cat3_tags || undefined,
     contactTitle: row.contact_title || undefined,
     contactDesc: row.contact_desc || undefined,
+    heroTag: row.hero_tag || undefined,
+    heroHeading: row.hero_heading || undefined,
   };
 }
 

@@ -30,6 +30,8 @@ export default function ProjectManager({
   const [profAbout1, setProfAbout1] = useState(profile.aboutParagraph1 || '');
   const [profAbout2, setProfAbout2] = useState(profile.aboutParagraph2 || '');
   const [profAboutQuote, setProfAboutQuote] = useState(profile.aboutQuote || '');
+  const [profHeroTag, setProfHeroTag] = useState(profile.heroTag || '');
+  const [profHeroHeading, setProfHeroHeading] = useState(profile.heroHeading || '');
 
   // Tab 2: Skills local state
   const [profSkill1Title, setProfSkill1Title] = useState(profile.skillCat1Title || '');
@@ -81,6 +83,8 @@ export default function ProjectManager({
     setProfAbout1(profile.aboutParagraph1 || '');
     setProfAbout2(profile.aboutParagraph2 || '');
     setProfAboutQuote(profile.aboutQuote || '');
+    setProfHeroTag(profile.heroTag || '');
+    setProfHeroHeading(profile.heroHeading || '');
 
     setProfSkill1Title(profile.skillCat1Title || '');
     setProfSkill1Desc(profile.skillCat1Desc || '');
@@ -114,7 +118,9 @@ export default function ProjectManager({
       bio: profBio,
       aboutParagraph1: profAbout1,
       aboutParagraph2: profAbout2,
-      aboutQuote: profAboutQuote
+      aboutQuote: profAboutQuote,
+      heroTag: profHeroTag,
+      heroHeading: profHeroHeading
     });
     triggerNotif('Profil & data Tentang Saya berhasil diperbarui!');
   };
@@ -339,7 +345,6 @@ export default function ProjectManager({
                   value={profName}
                   onChange={(e) => setProfName(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -352,7 +357,6 @@ export default function ProjectManager({
                   value={profRole}
                   onChange={(e) => setProfRole(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -365,7 +369,6 @@ export default function ProjectManager({
                   value={profLocation}
                   onChange={(e) => setProfLocation(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -378,7 +381,6 @@ export default function ProjectManager({
                   value={profAvatar}
                   onChange={(e) => setProfAvatar(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -391,8 +393,41 @@ export default function ProjectManager({
                   onChange={(e) => setProfBio(e.target.value)}
                   rows={2}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
-                  required
                 />
+              </div>
+
+              <div className="flex flex-col space-y-1.5 md:col-span-2 pt-4 border-t border-white/5">
+                <h4 className="font-sans font-bold text-sm text-white">Teks di Foto / Banner Utama (Hero Section)</h4>
+                <p className="font-mono text-[9px] text-brand-on-surface-variant uppercase">Sesuaikan teks yang tampil di bagian atas / foto utama website</p>
+              </div>
+
+              <div className="flex flex-col space-y-1.5 md:col-span-2">
+                <label className="font-mono text-[10px] uppercase tracking-wider text-brand-on-surface-variant">
+                  Label Atas (Hero Tagline)
+                </label>
+                <input
+                  type="text"
+                  value={profHeroTag}
+                  onChange={(e) => setProfHeroTag(e.target.value)}
+                  className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
+                  placeholder="Contoh: HI! I AM BRILLIAN DANIAR KAUTAMA"
+                />
+              </div>
+
+              <div className="flex flex-col space-y-1.5 md:col-span-2">
+                <label className="font-mono text-[10px] uppercase tracking-wider text-brand-on-surface-variant">
+                  Judul Utama (Hero Heading)
+                </label>
+                <textarea
+                  value={profHeroHeading}
+                  onChange={(e) => setProfHeroHeading(e.target.value)}
+                  rows={2}
+                  className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2.5 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
+                  placeholder="Contoh: Menciptakan {Harmoni} Antara Teknologi & Desain."
+                />
+                <span className="font-mono text-[9px] text-[#7effcb]/80 uppercase mt-1">
+                  💡 Tips: Gunakan tanda kurung kurawal atau bintang dua (misal: <code className="text-white bg-white/10 px-1 rounded">{"{Harmoni}"}</code> atau <code className="text-white bg-white/10 px-1 rounded">**Desain**</code>) untuk mewarnai teks dengan gradasi menyala premium secara dinamis! Anda juga bisa menggunakan enter/baris baru.
+                </span>
               </div>
 
               <div className="flex flex-col space-y-1.5 md:col-span-2 pt-4 border-t border-white/5">
@@ -409,7 +444,6 @@ export default function ProjectManager({
                   onChange={(e) => setProfAbout1(e.target.value)}
                   rows={3}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
-                  required
                 />
               </div>
 
@@ -422,7 +456,6 @@ export default function ProjectManager({
                   onChange={(e) => setProfAbout2(e.target.value)}
                   rows={3}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
-                  required
                 />
               </div>
 
@@ -435,7 +468,6 @@ export default function ProjectManager({
                   onChange={(e) => setProfAboutQuote(e.target.value)}
                   rows={2}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
-                  required
                 />
               </div>
             </div>
@@ -468,7 +500,6 @@ export default function ProjectManager({
                       value={profSkill1Title}
                       onChange={(e) => setProfSkill1Title(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5">
@@ -481,7 +512,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill1Tags(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
                       placeholder="e.g. FIGMA, UI/UX, DESIGN SYSTEM"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5 md:col-span-2">
@@ -493,7 +523,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill1Desc(e.target.value)}
                       rows={2}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none resize-none"
-                      required
                     />
                   </div>
                 </div>
@@ -514,7 +543,6 @@ export default function ProjectManager({
                       value={profSkill2Title}
                       onChange={(e) => setProfSkill2Title(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5">
@@ -527,7 +555,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill2Tags(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
                       placeholder="e.g. REACT, TYPESCRIPT, LINUX"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5 md:col-span-2">
@@ -539,7 +566,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill2Desc(e.target.value)}
                       rows={2}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none resize-none"
-                      required
                     />
                   </div>
                 </div>
@@ -560,7 +586,6 @@ export default function ProjectManager({
                       value={profSkill3Title}
                       onChange={(e) => setProfSkill3Title(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5">
@@ -573,7 +598,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill3Tags(e.target.value)}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
                       placeholder="e.g. CISCO, MIKROTIK, MONITORING"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5 md:col-span-2">
@@ -585,7 +609,6 @@ export default function ProjectManager({
                       onChange={(e) => setProfSkill3Desc(e.target.value)}
                       rows={2}
                       className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none resize-none"
-                      required
                     />
                   </div>
                 </div>
@@ -630,7 +653,6 @@ export default function ProjectManager({
                     onChange={(e) => setExpRole(e.target.value)}
                     placeholder="Contoh: Sekolah Menengah Kejuruan"
                     className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                    required
                   />
                 </div>
 
@@ -644,7 +666,6 @@ export default function ProjectManager({
                     onChange={(e) => setExpCompany(e.target.value)}
                     placeholder="Contoh: SMKN 1 Doko"
                     className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                    required
                   />
                 </div>
 
@@ -658,7 +679,6 @@ export default function ProjectManager({
                     onChange={(e) => setExpPeriod(e.target.value)}
                     placeholder="Contoh: 2021 — 2024"
                     className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none"
-                    required
                   />
                 </div>
 
@@ -685,7 +705,6 @@ export default function ProjectManager({
                     rows={2}
                     placeholder="Tulis penjelasan singkat mengenai pencapaian dan hal yang dipelajari..."
                     className="bg-brand-surface border border-white/10 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-xs font-sans outline-none resize-none"
-                    required
                   />
                 </div>
               </div>
@@ -770,7 +789,6 @@ export default function ProjectManager({
                   value={profEmail}
                   onChange={(e) => setProfEmail(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -783,7 +801,6 @@ export default function ProjectManager({
                   value={profContactTitle}
                   onChange={(e) => setProfContactTitle(e.target.value)}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none"
-                  required
                 />
               </div>
 
@@ -796,7 +813,6 @@ export default function ProjectManager({
                   onChange={(e) => setProfContactDesc(e.target.value)}
                   rows={2}
                   className="bg-brand-surface-lowest border border-white/10 hover:border-white/20 focus:border-brand-secondary rounded-sm text-white py-2 px-3 text-sm font-sans transition-colors duration-300 outline-none resize-none"
-                  required
                 />
               </div>
 

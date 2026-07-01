@@ -11,6 +11,8 @@ export const DEFAULT_PROFILE: Profile = {
   github: "https://github.com/notbourbae",
   instagram: "https://www.instagram.com/brillian_d.k/",
   tiktok: "https://www.tiktok.com/@_brilliand",
+  heroTag: "HI! I AM BRILLIAN DANIAR KAUTAMA",
+  heroHeading: "Menciptakan Harmoni Antara Teknologi & Desain.",
   
   aboutParagraph1: "Perjalanan saya di dunia teknologi dimulai dari ketertarikan mendalam pada infrastruktur jaringan dan sistem komputer. Dengan latar belakang pendidikan Teknik Komputer dan Jaringan hingga kini mendalami Teknik Informatika, saya berdedikasi untuk membangun solusi digital yang tidak hanya fungsional secara teknis tetapi juga memiliki nilai estetika yang kuat.",
   aboutParagraph2: "Saya percaya bahwa teknologi adalah seni yang ditulis dalam bahasa logika. Setiap piksel membawa makna, setiap baris kode menyimpan cerita. Berangkat dari fondasi Teknik Komputer dan Jaringan hingga menapaki dunia Teknik Informatika, saya terus merangkai solusi digital yang memadukan ketepatan, estetika, dan manfaat. Karena bagi saya, sebuah karya tidak hanya dinilai dari bagaimana ia bekerja, tetapi juga dari bagaimana ia memberi kesan bagi setiap orang yang menggunakannya.",
