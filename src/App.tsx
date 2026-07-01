@@ -653,7 +653,7 @@ export default function App() {
                 <h3 className="font-sans font-bold text-lg text-white">
                   {profile.skillCat1Title || "Creative Design"}
                 </h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
                   {profile.skillCat1Desc || "Merancang antarmuka pengguna (UI/UX) dengan fokus pada efisiensi teknis dan kemudahan navigasi bagi pengguna."}
                 </p>
               </div>
@@ -682,7 +682,7 @@ export default function App() {
                 <h3 className="font-sans font-bold text-lg text-white">
                   {profile.skillCat2Title || "Development"}
                 </h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
                   {profile.skillCat2Desc || "Fokus pada pengembangan perangkat lunak, infrastruktur jaringan, dan solusi teknologi modern."}
                 </p>
               </div>
@@ -711,7 +711,7 @@ export default function App() {
                 <h3 className="font-sans font-bold text-lg text-white">
                   {profile.skillCat3Title || "Networking & Infrastructure"}
                 </h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light font-light">
+                <p className="font-sans text-xs sm:text-sm text-brand-on-surface-variant leading-relaxed font-light">
                   {profile.skillCat3Desc || "Perancangan jaringan, administrasi server, dan keamanan sistem komputer."}
                 </p>
               </div>
@@ -874,9 +874,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* =========================================
-            8. SUBMITTED INBOUND MESSAGES LOG
-           ========================================= */}
         {/* =========================================
             8. SUBMITTED INBOUND MESSAGES LOG
            ========================================= */}

@@ -194,7 +194,13 @@ async function ensureTablesExist() {
     console.log("Successfully verified all tables (messages, profiles, projects, experiences) in Supabase PostgreSQL.");
   } catch (error: any) {
     dbInitializationError = error?.message || String(error);
-    console.warn("Error creating/verifying tables in PostgreSQL, will fallback to local JSON storage:", error);
+    const errorMsg = error?.message || String(error);
+    const isNetworkIssue = errorMsg.includes("getaddrinfo") || errorMsg.includes("ENOTFOUND") || errorMsg.includes("ECONNREFUSED") || errorMsg.includes("ETIMEDOUT");
+    if (isNetworkIssue) {
+      console.warn("⚠️ PostgreSQL database host is currently unreachable or offline. Seamlessly falling back to local JSON database storage.");
+    } else {
+      console.warn("Error creating/verifying tables in PostgreSQL, will fallback to local JSON storage:", errorMsg);
+    }
     usePostgres = false;
   }
 }
@@ -207,7 +213,13 @@ async function checkTables() {
       hasCheckedTables = true;
     } catch (error: any) {
       dbInitializationError = error?.message || String(error);
-      console.warn("checkTables failed, disabling PostgreSQL for this session:", error);
+      const errorMsg = error?.message || String(error);
+      const isNetworkIssue = errorMsg.includes("getaddrinfo") || errorMsg.includes("ENOTFOUND") || errorMsg.includes("ECONNREFUSED") || errorMsg.includes("ETIMEDOUT");
+      if (isNetworkIssue) {
+        console.warn("⚠️ checkTables failed because PostgreSQL is unreachable/offline. Local JSON storage is active.");
+      } else {
+        console.warn("checkTables failed, disabling PostgreSQL for this session:", errorMsg);
+      }
       usePostgres = false;
     }
   }

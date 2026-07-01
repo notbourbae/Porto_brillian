@@ -36,4 +36,3 @@ Ethereal Portfolio merupakan representasi visual dari karya dan personal brandin
 ## Author
 
 Brillian Daniar Kautama
-
