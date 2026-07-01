@@ -898,7 +898,7 @@ export default function App() {
                     Ulasan & Suara Pengunjung
                   </h3>
                   <p className="font-mono text-[10px] text-brand-on-surface-variant uppercase mt-1 tracking-wider">
-                    Umpan balik langsung dari rekan developer, klien, dan pengunjung portfolio
+                    Umpan balik langsung dari pengunjung portfolio
                   </p>
                 </div>
                 
